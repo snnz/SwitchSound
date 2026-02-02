@@ -9,23 +9,35 @@ namespace SwitchSound
       try
       {
         var devices = (IMultimediaDeviceEnumerator)new MultimediaDeviceEnumerator();
-        var default_id = devices.GetDefaultAudioEndpoint(EDataFlow.Render, ERole.Multimedia).Id;
+        var defaultDevice = devices.GetDefaultAudioEndpoint(EDataFlow.Render, ERole.Multimedia);
+        var defaultId = defaultDevice.Id;
+        var defaultName = defaultDevice.Name();
 
         if (args.Length < 1)
           foreach (var device in devices.EnumAudioEndpoints(EDataFlow.Render, EDeviceState.Active).ToEnumerable())
           {
             var id = device.Id;
-            Console.WriteLine("{0}{1}\n {2}\n", id == default_id ? "*" : " ", device.Name(), id);
+            var name = device.Name();
+            Console.WriteLine("{0}{1}\n {2}\n", (id == defaultId || name == defaultName) ? "*" : " ", name, id);
           }
         else
         {
-          var new_default_id = args[0];
-          if (new_default_id == default_id)
+          var newDefault = args[0];
+          if (newDefault == defaultId || newDefault == defaultName)
           {
             if (args.Length < 2) return;
-            new_default_id = args[1];
+            newDefault = args[1];
           }
-          ((IPolicyConfig)new PolicyConfig()).SetDefaultEndpoint(new_default_id, ERole.Multimedia);
+
+          foreach (var device in devices.EnumAudioEndpoints(EDataFlow.Render, EDeviceState.Active).ToEnumerable())
+          {
+            var id = device.Id;
+            if (id == newDefault || device.Name() == newDefault)
+            {
+              ((IPolicyConfig)new PolicyConfig()).SetDefaultEndpoint(id, ERole.Multimedia);
+              break;
+            }
+          }
         }
       }
       catch (Exception e)

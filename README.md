@@ -4,10 +4,10 @@ A tiny console tool for switching between audio output devices.
 
 #### Run:
 
- - Without agruments - list devices with their interface identifiers.
+ - Without agruments - list device names with their interface identifiers.
    Currently active is marked with '*'.
 
- - With a list of interface identifiers as arguments - switch between devices in a circle: active -> next, last -> first.
+ - With a list of interface identifiers or names as arguments - switch between devices in a circle: active -> next, last -> first.
 
 #### For example:
 
@@ -37,7 +37,7 @@ A tiny console tool for switching between audio output devices.
  {0.0.0.00000000}.{a4a19331-61d9-46d4-8118-33c5003c1c20}
 
 
-> SwitchSound.exe {0.0.0.00000000}.{24a8b3c5-8ece-48eb-9980-cf104f3ff711} {0.0.0.00000000}.{a4a19331-61d9-46d4-8118-33c5003c1c20}
+> SwitchSound.exe "S22E390 (HD Audio Driver for Display Audio)" "Speakers (High Definition Audio Device)"
 > SwitchSound.exe
 
 *S22E390 (HD Audio Driver for Display Audio)
